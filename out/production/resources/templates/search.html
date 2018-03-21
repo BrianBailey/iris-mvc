@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<div th:replace="fragments :: navigation"></div>
+
+<div class="container body-content">
+
+    <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+
+    <form th:action="@{/search/results}">
+        <h2>Search by:</h2>
+
+        <p>
+            <span th:each="column : ${columns}">
+                <input
+                        type="radio"
+                        name="searchType"
+                        th:id="${column.key}"
+                        th:value="${column.key}"
+                        th:checked="${column.key == 'all'}"/>
+                <label th:for="${column.key}" th:text="${column.value}"></label>
+            </span>
+
+        </p>
+
+        <p>
+            <label for="searchTerm">Keyword:</label>
+            <input type="text" name="searchTerm" id="searchTerm" />
+        </p>
+
+        <input type="submit" value="Search" />
+    </form>
+
+    <hr />
+
+    <!-- TODO #2 - Loop over jobs map to display all job fields -->
+
+    <!--Could use fragments here  th:fragment="search-all" -->
+
+    <table class="flower-listing" th:each="flower : ${flowers}">
+
+        <tr th:each="field : ${flower}">
+            <!--use this same line in list-jobs.html -->
+            <td th:text="${#strings.capitalizeWords(field.key)}"></td>
+            <td th:text="${field.value}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>
